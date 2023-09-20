@@ -1,3 +1,3 @@
-#   CRoll- A Video Streaming App
+#   VidRoll- A Video Streaming App
     
-  - Created with create-react-app
+ 

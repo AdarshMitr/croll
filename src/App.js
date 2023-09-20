@@ -1,8 +1,14 @@
 
-
+import "./App.css";
+import Head from './components/Head';
+import Body from "./components/Body";
 function App() {
   return (
-  <h1>CRoll- A Video Streaming App</h1>
+    <div>
+  <Head/>
+  <Body/>
+    </div>
+  
   );
 }
 
