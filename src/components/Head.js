@@ -36,7 +36,7 @@ const dispatch=useDispatch();
   }, [searchQuery]);
 
   const getSearchSuggestions = async () => {
-    console.log("API call -" + searchQuery);
+    //console.log("API call -" + searchQuery);
     const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
     const json = await data.json();
     //console.log(json[1]);
