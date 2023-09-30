@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import hamburger from "../img/hamburger.png";
 import logo from "../img/logo.png";
 import user from "../img/user-icon.png";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
 import search_icon from "../img/search_icon.png"
+import { cacheResults } from "../utils/searchSlice";
 
 
 
@@ -13,12 +14,22 @@ const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
 const [suggestions,setSuggestions]=useState([]);
 const [showSuggestions,setShowSuggestions]=useState(false);
+
+const searchCache=useSelector((store)=>store.search);
+const dispatch=useDispatch();
+
   useEffect(() => {
     //API call
 
     //make an API call after every key press
     // but if difference between 2 API calls is <200ms-decline the API call
-    const timer = setTimeout(() => getSearchSuggestions(), 200);
+    const timer = setTimeout(() => {
+    if(searchCache[searchQuery]){
+      setSuggestions(searchCache[searchQuery]);
+    }else{
+      getSearchSuggestions();
+    }
+  }, 200);
     return () => {
       clearTimeout(timer);
     };
@@ -30,14 +41,19 @@ const [showSuggestions,setShowSuggestions]=useState(false);
     const json = await data.json();
     //console.log(json[1]);
     setSuggestions(json[1]);
+
+    //update cache
+    dispatch(cacheResults({
+      [searchQuery]:json[1],
+    }));
   };
-  const dispatch = useDispatch();
+  
 
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
   };
   return (
-    <div className="grid grid-flow-col  p-5 shadow-lg">
+    <div className="grid grid-flow-col  p-5 shadow-lg ">
       <div className="flex col-span-1">
         <img
           onClick={() => toggleMenuHandler()}
@@ -62,13 +78,13 @@ const [showSuggestions,setShowSuggestions]=useState(false);
           />
           
           <button className="border border-gray-600 p-2 rounded-r-full">
-          <img src={search_icon} className="w-6"/>
+          <img alt="search_icon" src={search_icon} className="w-6"/>
           
           </button>
         </div>
-        {showSuggestions && (<div className="fixed bg-white py-2 px-5 w-[27rem] shadow-lg rounded-lg">
+        {showSuggestions && (<div className="absolute bg-white py-2 px-5 w-[27rem] shadow-lg rounded-lg">
           <ul>
-            {suggestions.map((s)=><li key={s} className="flex hover:bg-gray-200"><img src={search_icon} className="w-6"/> {s}</li>)}
+            {suggestions.map((s)=><li key={s} className="flex hover:bg-gray-200"><img alt="search_icon" src={search_icon} className="w-6"/> {s}</li>)}
             
           
 

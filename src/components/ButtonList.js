@@ -8,7 +8,7 @@ const ButtonList = () => {
   
   const items=list.map((item)=><Button name={item}/>)
   return (
-    <div className='flex '>
+    <div className='flex'>
       {/* <Button name='All'/>
       <Button name='Gaming'/>
       <Button name='Songs'/>
