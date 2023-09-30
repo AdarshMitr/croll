@@ -12,6 +12,7 @@ import search_icon from "../img/search_icon.png"
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
 const [suggestions,setSuggestions]=useState([]);
+const [showSuggestions,setShowSuggestions]=useState(false);
   useEffect(() => {
     //API call
 
@@ -56,6 +57,8 @@ const [suggestions,setSuggestions]=useState([]);
             type="text" placeholder="Search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            onFocus={()=>setShowSuggestions(true)}
+            onBlur={()=>setShowSuggestions(false)}
           />
           
           <button className="border border-gray-600 p-2 rounded-r-full">
@@ -63,7 +66,7 @@ const [suggestions,setSuggestions]=useState([]);
           
           </button>
         </div>
-        <div className="fixed bg-white py-2 px-5 w-[27rem] shadow-lg rounded-lg">
+        {showSuggestions && (<div className="fixed bg-white py-2 px-5 w-[27rem] shadow-lg rounded-lg">
           <ul>
             {suggestions.map((s)=><li key={s} className="flex hover:bg-gray-200"><img src={search_icon} className="w-6"/> {s}</li>)}
             
@@ -71,7 +74,7 @@ const [suggestions,setSuggestions]=useState([]);
 
 
           </ul>
-        </div>
+        </div>)}
       </div>
       <div>
         <img className="h-8" alt="user" src={user} />
