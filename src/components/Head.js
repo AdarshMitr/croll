@@ -5,27 +5,30 @@ import user from "../img/user-icon.png";
 import { useDispatch } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
+import search_icon from "../img/search_icon.png"
+
+
 
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
-
+const [suggestions,setSuggestions]=useState([]);
   useEffect(() => {
     //API call
-    console.log(searchQuery);
+
     //make an API call after every key press
     // but if difference between 2 API calls is <200ms-decline the API call
-    const timer=setTimeout(() => 
-      getSearchSuggestions()
-    , 200);
-    return()=>{
+    const timer = setTimeout(() => getSearchSuggestions(), 200);
+    return () => {
       clearTimeout(timer);
-    }
+    };
   }, [searchQuery]);
 
   const getSearchSuggestions = async () => {
+    console.log("API call -" + searchQuery);
     const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
     const json = await data.json();
-    console.log(json[1]);
+    //console.log(json[1]);
+    setSuggestions(json[1]);
   };
   const dispatch = useDispatch();
 
@@ -47,15 +50,28 @@ const Head = () => {
       </div>
 
       <div className="col-span-10 px-12 ">
-        <input
-          className="w-1/2 border border-gray-400 p-2 rounded-l-full"
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <button className="border border-gray-600 p-2 rounded-r-full">
-          🔍
-        </button>
+        <div className="flex">
+          <input
+            className="w-1/2 border border-gray-400 p-2 rounded-l-full"
+            type="text" placeholder="Search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          
+          <button className="border border-gray-600 p-2 rounded-r-full">
+          <img src={search_icon} className="w-6"/>
+          
+          </button>
+        </div>
+        <div className="fixed bg-white py-2 px-5 w-[27rem] shadow-lg rounded-lg">
+          <ul>
+            {suggestions.map((s)=><li key={s} className="flex hover:bg-gray-200"><img src={search_icon} className="w-6"/> {s}</li>)}
+            
+          
+
+
+          </ul>
+        </div>
       </div>
       <div>
         <img className="h-8" alt="user" src={user} />
