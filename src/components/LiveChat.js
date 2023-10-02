@@ -1,14 +1,37 @@
-import React from "react";
-import ChatMessage from "./ChatMessage";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addMessage } from "../utils/chatSlice";
+import ChatMessage from './ChatMessage';
+import { generateRandomName } from "../utils/helper";
+import { makeRandomMessage } from "../utils/helper";
 
 const LiveChat = () => {
+
+  const dispatch=useDispatch();
+
+  const ChatMessages= useSelector(store=>store.chat.messages);
+  useEffect(()=>{
+   const i= setInterval(()=>{
+//API Polling
+console.log("API Polling")
+dispatch(
+  addMessage({
+  name:generateRandomName(),
+  message:makeRandomMessage(28),
+}));
+    },2000);
+   
+return ()=>clearInterval(i);
+  },[]) 
   return (
-    <div className="w-full h-[504px] ml-2 p-2 border border-black bg-slate-100 rounded-lg">
-      <ChatMessage name="Adarsh" message="This is an awesome video" />
-      <ChatMessage name="Aman" message="I like it" />
-      <ChatMessage name="Kundan" message="What?" />
-      <ChatMessage name="Sajjan" message="What a content" />
+    <div className="w-full h-[504px] ml-2 p-2 border border-black bg-slate-100 rounded-lg overflow-y-scroll">
+      {//do not use indexes as keys
+      ChatMessages.map((c,i)=>(<ChatMessage
+      key={i}
+      name={c.name}
+      message={c.message} />))
       
+      }
     </div>
     
   );

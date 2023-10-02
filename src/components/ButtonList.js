@@ -6,7 +6,7 @@ const list=['All','Gaming',
 'Cooking','Health','History','Recently Uploaded','New'];
 const ButtonList = () => {
   
-  const items=list.map((item)=><Button name={item}/>)
+  const items=list.map((item,index)=><Button key={index} name={item}/>)
   return (
     <div className='flex'>
       {/* <Button name='All'/>
