@@ -24,7 +24,7 @@ dispatch(
 return ()=>clearInterval(i);
   },[]) 
   return (
-    <div className="w-full h-[504px] ml-2 p-2 border border-black bg-slate-100 rounded-lg overflow-y-scroll">
+    <div className="w-full h-[504px] ml-2 p-2 border border-black bg-slate-100 rounded-lg overflow-y-scroll flex flex-col-reverse">
       {//do not use indexes as keys
       ChatMessages.map((c,i)=>(<ChatMessage
       key={i}
