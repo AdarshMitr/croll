@@ -19,7 +19,7 @@ dispatch(
   name:generateRandomName(),
   message:makeRandomMessage(28),
 }));
-    },2000);
+    },500);
    
 return ()=>clearInterval(i);
   },[]) 
