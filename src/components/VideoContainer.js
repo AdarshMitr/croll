@@ -17,7 +17,7 @@ const VideoContainer = () => {
     const json = await data.json();
    // console.log(json)
     setVideos(json.items);
-    console.log(json)
+    
   };
   return (
     <div className="flex flex-wrap justify-evenly">
