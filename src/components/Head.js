@@ -4,10 +4,10 @@ import logo from "../img/logo.png";
 import user from "../img/user-icon.png";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
-import { YOUTUBE_SEARCH_API } from "../utils/constants";
+
 import search_icon from "../img/search_icon.png"
 import { cacheResults } from "../utils/searchSlice";
-
+import { YOUTUBE_SEARCH_API } from "../utils/constants";
 
 
 const Head = () => {
